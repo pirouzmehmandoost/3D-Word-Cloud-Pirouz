@@ -15,6 +15,21 @@ extraction with scikit-learn.
 - 3D word cloud with weight-based size, color, position, rotation, and per-word y-position animation.
 - Loading and error states for the article analysis flow.
 
+## Frontend
+
+The frontend keeps the form UI separate from the full-screen React Three Fiber
+canvas. Submitting a URL sends it to the FastAPI backend, stores the returned
+keywords in React state, and passes those words into the R3F scene.
+
+The word cloud renders each keyword as a Drei `Text` mesh inside a rotating
+`WordCloud` group. Word weights affect font size, color, and 3D placement. The
+positions are calculated with a Fibonacci-sphere distribution so words occupy
+the x, y, and z axes instead of a flat plane.
+
+Each word also receives a small y-position animation. The animation uses a
+stable per-word seed so labels do not move in sync, and the text orientation is
+kept readable while the parent group rotates.
+
 ## Requirements
 
 - macOS
@@ -86,3 +101,5 @@ find enough meaningful text.
 
 The backend normalizes TF-IDF scores to a `0-1` range so the frontend can map
 word relevance to visual properties such as size, color, and 3D position.
+
+Some sites block automated requests or require authentication. Use publicly accessible HTML pages for testing. 
