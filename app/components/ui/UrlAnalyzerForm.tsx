@@ -64,7 +64,7 @@ export default function UrlAnalyzerForm({
   return (
     <section
       aria-labelledby="article-analyzer-heading"
-      className="pointer-events-auto w-full max-w-2xl rounded-3xl border border-white/15 bg-black/60 p-5 text-white shadow-2xl backdrop-blur-md"
+      className="pointer-events-auto w-full max-w-md rounded-3xl border border-white/15 bg-black/50 p-5 text-white shadow-2xl backdrop-blur-md"
     >
       <div className="space-y-2">
         <p className="text-sm font-medium uppercase tracking-[0.25em] text-cyan-200">
@@ -74,8 +74,8 @@ export default function UrlAnalyzerForm({
           Analyze a news article
         </h1>
         <p className="text-sm leading-6 text-zinc-300">
-          Enter an article URL and the FastAPI backend will extract important
-          words for the 3D visualization.
+          Enter a URL and the FastAPI backend will extract important words to
+          render in a 3D word cloud.
         </p>
       </div>
 
