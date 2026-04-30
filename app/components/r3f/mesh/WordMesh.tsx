@@ -25,10 +25,8 @@ type WordMeshProps = {
 const defaultMeshStandardMaterialConfig = {
   flatShading: false,
   metalness: 0,
-  opacity: 1,
   roughness: 1,
   side: THREE.DoubleSide,
-  transparent: false,
 }
 
 const WordMesh = ({ word, weight, position }: WordMeshProps) => {
