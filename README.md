@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 3D Word Cloud Pirouz
 
-## Getting Started
+An interactive full-stack app that analyzes a news article URL and renders the
+most relevant extracted words as a 3D word cloud.
 
-First, run the development server:
+The frontend is built with Next.js, TypeScript, React Three Fiber, Drei, Three.js,
+and Tailwind CSS. The backend is built with FastAPI and uses TF-IDF keyword
+extraction with scikit-learn.
+
+## Features
+
+- URL input for analyzing a news article.
+- Sample article links for quick testing.
+- FastAPI `POST /analyze` endpoint that fetches article text and returns weighted keywords.
+- 3D word cloud with weight-based size, color, position, rotation, and per-word y-position animation.
+- Loading and error states for the article analysis flow.
+
+## Requirements
+
+- macOS
+- Node.js and npm
+- Python 3.13+
+- uv
+
+## Run With Setup Script
+
+From the project root:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bash setup.sh
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The script installs frontend dependencies, installs backend dependencies with
+`uv`, then starts both development servers:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Frontend: `http://localhost:3000`
+- Backend: `http://127.0.0.1:8000`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Manual Run
 
-## Learn More
+Install and start the frontend:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm install
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Install and start the backend from a second terminal:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+cd backend
+uv sync
+uv run fastapi dev main.py --host 127.0.0.1 --port 8000
+```
 
-## Deploy on Vercel
+## Backend API
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`POST /analyze`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Request:
+
+```json
+{
+  "url": "https://www.example.com/news/article"
+}
+```
+
+Response:
+
+```json
+{
+  "url": "https://www.example.com/news/article",
+  "word_count": 1200,
+  "words": [
+    { "word": "example", "weight": 1 },
+    { "word": "topic", "weight": 0.72 }
+  ]
+}
+```
+
+## Notes
+
+The crawler is intentionally basic. It removes common non-content elements,
+extracts text from article-like HTML nodes, and returns an error when it cannot
+find enough meaningful text.
+
+The backend normalizes TF-IDF scores to a `0-1` range so the frontend can map
+word relevance to visual properties such as size, color, and 3D position.

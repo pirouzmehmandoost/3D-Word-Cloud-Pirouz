@@ -23,7 +23,9 @@
       "@public/*": ["./public/*"],
       "@components/*": ["./app/components/*"],
       "@r3f/*": ["./app/components/r3f/*"],
-      "@ui/*": ["./app/components/ui/*"]
+      "@ui/*": ["./app/components/ui/*"],
+      "@configs/*": ["./app/lib/configs/*"],
+      "@utils/*": ["./app/lib/utils/*"]
     }
   },
   "include": [

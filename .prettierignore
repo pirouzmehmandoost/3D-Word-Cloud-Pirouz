@@ -5,3 +5,7 @@ backend/uv.lock
 backend/__pycache__
 *.pyc
 tsconfig.tsbuildinfo
+AGENTS.md
+CLAUDE.md
+.cursor
+project_spec.md
