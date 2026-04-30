@@ -6,7 +6,7 @@ from article import fetch_article_html, extract_article_text
 from keywords import extract_keywords
 
 
-app = FastAPI(title="3D Word Cloud Backend")
+app = FastAPI(title="3D-Word-Cloud-Pirouz-Backend")
 
 app.add_middleware(
     CORSMiddleware,
@@ -31,14 +31,14 @@ async def analyze_article(request: AnalyzeRequest) -> AnalyzeResponse:
     if len(text.split()) < 50:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
-            detail="Could not extract enough article text from the provided URL.",
+            detail="Could not extract enough text from the provided URL.",
         )
 
     words = extract_keywords(text)
     if not words:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
-            detail="Could not identify meaningful keywords from the article text.",
+            detail="Could not identify meaningful keywords from the extracted text content.",
         )
 
     return AnalyzeResponse(url=article_url, word_count=len(text.split()), words=words)
