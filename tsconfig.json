@@ -19,7 +19,11 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@public/*": ["./public/*"],
+      "@components/*": ["./app/components/*"],
+      "@r3f/*": ["./app/components/r3f/*"],
+      "@ui/*": ["./app/components/ui/*"]
     }
   },
   "include": [
