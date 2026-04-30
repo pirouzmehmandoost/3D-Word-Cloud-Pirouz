@@ -21,26 +21,32 @@ async def fetch_article_html(url: str) -> str:
             response = await client.get(url)
             response.raise_for_status()
     except httpx.HTTPStatusError as exc:
+        if exc.response.status_code == status.HTTP_404_NOT_FOUND:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="URL was not found.",
+            ) from exc
+
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail=f"Article request failed with status {exc.response.status_code}.",
+            detail=f"Request failed with status {exc.response.status_code}.",
         ) from exc
     except httpx.TimeoutException as exc:
         raise HTTPException(
             status_code=status.HTTP_504_GATEWAY_TIMEOUT,
-            detail="Timed out while fetching article URL.",
+            detail="Timed out while fetching URL.",
         ) from exc
     except httpx.HTTPError as exc:
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail="Failed to fetch article URL.",
+            detail="Failed to fetch URL.",
         ) from exc
 
     content_type = response.headers.get("content-type", "")
     if "text/html" not in content_type:
         raise HTTPException(
             status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
-            detail="Provided URL did not return an HTML article.",
+            detail="Provided URL did not return HTML content.",
         )
 
     return response.text
